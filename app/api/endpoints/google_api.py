@@ -1,5 +1,3 @@
-from typing import List
-
 from aiogoogle import Aiogoogle
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -8,19 +6,16 @@ from app.core.db import get_async_session
 from app.core.google_client import get_service
 from app.crud.charity_project import charity_crud
 from app.services.google_api import (
-    spreadsheets_create, set_user_permissions, spreadsheets_update_value
+    set_user_permissions, spreadsheets_create,
+    spreadsheets_update_value
 )
-from app.schemas.charity_project import CharityDB
-
 
 router = APIRouter()
 
+URL = 'https://docs.google.com/spreadsheets/d/{}'
 
-@router.get(
-    '/',
-    response_model=List[CharityDB],
-    response_model_exclude_none=True
-)
+
+@router.get('/',)
 async def get_all_invested(
     session: AsyncSession = Depends(get_async_session),
     wrapper_services: Aiogoogle = Depends(get_service)
@@ -31,5 +26,4 @@ async def get_all_invested(
     await spreadsheets_update_value(
         spreadsheet_id, projects, wrapper_services
     )
-    return projects
-    # return f'https://docs.google.com/spreadsheets/d/{spreadsheet_id}'
+    return URL.format(spreadsheet_id)
