@@ -1,3 +1,4 @@
+from copy import deepcopy
 from datetime import datetime
 from typing import List
 
@@ -13,36 +14,51 @@ LOCAL = 'ru_RU'
 SHEET_VERSION = 'v4'
 SHEET_TYPE = 'GRID'
 SHEET_TITLE = 'Закрытые поректы'
-ROW_COUNT = 10
-COLUMN_COUNT = 3
+ROW_COUNT = 50
+COLUMN_COUNT = 10
+
+SHEET_BODY = dict(
+    properties=dict(
+        title='',
+        locale=LOCAL,
+    ),
+    sheets=[dict(properties=dict(
+        sheetType=SHEET_TYPE,
+        sheetId=0,
+        title=SHEET_TITLE,
+        gridProperties=dict(
+            rowCount=ROW_COUNT,
+            columnCount=COLUMN_COUNT,
+        )
+    ))]
+)
+SHEET_HEAD = [
+    ['Отчет от ', ''],
+    ['Топ проектов по скорости закрытия'],
+    ['Название проекта', 'Время сбора', 'Описание']
+]
 
 DRIVE_VERSION = 'v3'
 DRIVE_TYPE = 'user'
 DRIVE_ROLE = 'writer'
 EMAIL = settings.email
 
+COLUMN_ERROR = (
+    'Ожидается {} столбцов'
+    'Вы передаёте "{}" столбцов'
+)
+ROW_ERROR = (
+    'Ожидается {} строк'
+    'Вы передаёте "{}" строк'
+)
+
 
 async def spreadsheets_create(wrapper_services: Aiogoogle):
     service = await wrapper_services.discover('sheets', SHEET_VERSION)
-    body = {
-        'properties': {
-            'title': OUTUPUT_DATE.format(
-                datetime.now().strftime(FORMAT)
-            ),
-            'locale': LOCAL
-        },
-        'sheets': [{
-            'properties': {
-                'sheetType': SHEET_TYPE,
-                'sheetId': 0,
-                'title': SHEET_TITLE,
-                'gridProperties': {
-                    'rowCount': ROW_COUNT,
-                    'columnCount': COLUMN_COUNT
-                }
-            }
-        }]
-    }
+    body = deepcopy(SHEET_BODY)
+    body['properties']['title'] = OUTUPUT_DATE.format(
+        datetime.now().strftime(FORMAT)
+    )
     response = await wrapper_services.as_service_account(
         service.spreadsheets.create(json=body)
     )
@@ -75,26 +91,34 @@ async def spreadsheets_update_value(
     wrapper_services: Aiogoogle
 ):
     service = await wrapper_services.discover('sheets', SHEET_VERSION)
+    head = deepcopy(SHEET_HEAD)
+    head[0][1] = datetime.now().strftime(FORMAT)
     table_values = [
-        ['Отчет от ', datetime.now().strftime(FORMAT)],
-        ['Топ проектов по скорости закрытия'],
-        ['Название проекта', 'Время сбора', 'Описание']
+        *head,
+        *[list(map(str, (
+            project.name,
+            project.close_date - project.create_date,
+            project.description
+        ))) for project in chatiry_projects]
     ]
-    for project in chatiry_projects:
-        row = [
-            str(project.name),
-            str(project.close_date - project.create_date),
-            str(project.description),
-        ]
-        table_values.append(row)
     body = {
         'majorDimension': 'ROWS',
         'values': table_values,
     }
+    rows = len(table_values)
+    columns = max(len(row) for row in head)
+    if rows > ROW_COUNT:
+        raise ValueError(ROW_ERROR.format(
+            ROW_COUNT, rows
+        ))
+    if columns > COLUMN_COUNT:
+        raise ValueError(ROW_ERROR.format(
+            COLUMN_COUNT, columns
+        ))
     await wrapper_services.as_service_account(
         service.spreadsheets.values.update(
             spreadsheetId=spreadsheet_id,
-            range='A1:E30',
+            range=f'R1C1:R{rows}C{columns}',
             valueInputOption='USER_ENTERED',
             json=body,
         )
