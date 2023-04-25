@@ -1,60 +1,48 @@
-### Описание проекта:
+# Cat Charity Fund
 
 Благотворительный фонд поддержки котиков
 
-### Автор: [Артём Носов](https://github.com/avnosov3)
 
-### Техно-стек:
+## Техно-стек
 * python 3.7.9
 * fastapi 0.78.0
 * SQLAlchemy 1.4.36
+* alembic 1.7.7
+* pydantic 1.9.1
+* aiogoogle 4.2.0
+* uvicorn 0.17.6
+* Google API 2.0
 
-Клонировать репозиторий и перейти в него в командной строке:
 
+1. Клонировать репозиторий
 ```
-git clone git@github.com:avnosov3/cat_charity_fund.git
+git@github.com:avnosov3/QRkot_spreadsheets.git
 ```
-
+2. Перейти в папку с проектом и создать виртуальное окружение
 ```
-cd cat_charity_fund
+cd QRkot_spreadsheets
 ```
-
-Cоздать и активировать виртуальное окружение:
-
 ```
-python3 -m venv venv
+python3 -m venv env
+python -m venv venv (Windows)
 ```
-
-* Если у вас Linux/macOS
-
-    ```
-    source venv/bin/activate
-    ```
-
-* Если у вас windows
-
-    ```
-    source venv/scripts/activate
-    ```
-
-Установить зависимости из файла requirements.txt:
-
+3. Активировать виртуальное окружение
 ```
-python3 -m pip install --upgrade pip
+source env/bin/activate
+source venv/Scripts/activate (Windows)
 ```
-
+4. Установить зависимости из файла requirements.txt:
 ```
-pip install -r requirements.txt
+pip3 install -r requirements.txt
+pip install -r requirements.txt (Windows)
 ```
-
-Провести миграции
-
+5. Провести миграции
 ```
 alembic upgrade head
 ```
-
-Запустить проект
-
+6. Запустить проект
 ```
 uvicorn app.main:app
 ```
+## Автор
+[Артём Носов](https://github.com/avnosov3)
