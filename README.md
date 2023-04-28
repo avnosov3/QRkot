@@ -16,11 +16,11 @@
 
 1. Клонировать репозиторий
 ```
-git@github.com:avnosov3/QRkot_spreadsheets.git
+git@github.com:avnosov3/QRkot.git
 ```
 2. Перейти в папку с проектом и создать виртуальное окружение
 ```
-cd QRkot_spreadsheets
+cd QRkot
 ```
 ```
 python3 -m venv env
@@ -36,11 +36,31 @@ source venv/Scripts/activate (Windows)
 pip3 install -r requirements.txt
 pip install -r requirements.txt (Windows)
 ```
-5. Провести миграции
+5. Создать файл и заполнить файл .env
+```
+DATABASE_URL=sqlite+aiosqlite:///./charity_fund.db
+SECRET=<указать секретное значение>
+FIRST_SUPERUSER_EMAIL = <указать логин супер пользователя>
+FIRST_SUPERUSER_PASSWORD = <указать пароль супер пользователя>
+
+type=<указать данные из сервисного аккаунта Google Cloud>
+project_id=<указать данные из сервисного аккаунта Google Cloud>
+private_key_id=<указать данные из сервисного аккаунта Google Cloud>
+private_key<указать данные из сервисного аккаунта Google Cloud>
+client_email=<указать данные из сервисного аккаунта Google Cloud>
+client_id=<указать данные из сервисного аккаунта Google Cloud>
+auth_uri=<указать данные из сервисного аккаунта Google Cloud>
+token_uri=<указать данные из сервисного аккаунта Google Cloud>
+auth_provider_x509_cert_url=<указать данные из сервисного аккаунта Google Cloud>
+client_x509_cert_url=<указать данные из сервисного аккаунта Google Cloud>
+
+email=<укажите потчу личного аккаунта Google>
+```
+6. Провести миграции
 ```
 alembic upgrade head
 ```
-6. Запустить проект
+7. Запустить проект
 ```
 uvicorn app.main:app
 ```
