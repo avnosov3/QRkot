@@ -16,7 +16,7 @@
 
 1. Клонировать репозиторий
 ```
-git@github.com:avnosov3/QRkot.git
+git clone git@github.com:avnosov3/QRkot.git
 ```
 2. Перейти в папку с проектом и создать виртуальное окружение
 ```
