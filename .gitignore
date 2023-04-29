@@ -133,3 +133,5 @@ dmypy.json
 .idea
 .vscode
 .flake8
+fastapi.db
+cat_charity_fund.db
