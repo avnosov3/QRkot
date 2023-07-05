@@ -1,6 +1,6 @@
 # Cat Charity Fund
-<details><summary>Russian language</summary>
-<br>
+<details><summary>Russian language</summary>  
+    
 Благотворительный фонд поддержки котиков. Присутствует возможность формирования отчёта в гугл-таблице.
 [Документация](https://127.0.0.1:8000/docs) доступна после запуска проекта
 
@@ -68,8 +68,8 @@ uvicorn app.main:app
 ## Автор
 [Артём Носов](https://github.com/avnosov3)
 </details>
-<details><summary>English language</summary>
-<br>
+<details><summary>English language</summary>  
+  
 Charitable foundation for the support of cats. There is the possibility of generating a report in a Google spreadsheet.
 [Documentation](https://127.0.0.1:8000/docs) available after project launch
 
