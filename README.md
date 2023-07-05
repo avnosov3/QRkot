@@ -98,7 +98,7 @@ cd QRkot
 python3 -m venv env
 python -m venv venv (Windows)
 ```
-3. Activate a virtual environmen
+3. Activate a virtual environment
 ```
 source env/bin/activate
 source venv/Scripts/activate (Windows)
