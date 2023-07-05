@@ -14,6 +14,7 @@
 * uvicorn 0.17.6
 * Google API 2.0
 
+## Запуск проекта
 1. Клонировать репозиторий
 ```
 git clone git@github.com:avnosov3/QRkot.git
@@ -82,6 +83,8 @@ Charitable foundation for the support of cats. There is the possibility of gener
 * aiogoogle 4.2.0
 * uvicorn 0.17.6
 * Google API 2.0
+
+## Launch of the project
 
 1. Clone repository
 ```
